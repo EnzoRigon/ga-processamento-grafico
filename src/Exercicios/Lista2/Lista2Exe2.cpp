@@ -49,9 +49,10 @@ const GLuint WIDTH = 800, HEIGHT = 600;
 const GLchar *vertexShaderSource = R"(
  #version 400
  layout (location = 0) in vec3 position;
+ uniform mat4 projection;
  void main()
  {
-	 gl_Position = vec4(position.x, position.y, position.z, 1.0);
+     gl_Position = projection * vec4(position, 1.0);
  }
  )";
 
@@ -90,7 +91,7 @@ int main()
 	 #endif
 
 	// Criação da janela GLFW
-	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Ola Triangulo! -- Rossana", nullptr, nullptr);
+	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Lista 2 Exe 1! -- Enzo", nullptr, nullptr);
 	if (!window)
 	{
 		std::cerr << "Falha ao criar a janela GLFW" << std::endl;
@@ -132,7 +133,15 @@ int main()
 	GLint colorLoc = glGetUniformLocation(shaderID, "inputColor");
 
 	glUseProgram(shaderID); // Reseta o estado do shader para evitar problemas futuros
-
+    GLint projLoc = glGetUniformLocation(shaderID, "projection");
+    float left = 0.0f, right = 800.0f, bottom = 600.0f, top = 0.0f, near = -1.0f, far = 1.0f;
+    float ortho[16] = {
+        2.0f/(right-left), 0, 0, 0,
+        0, 2.0f/(top-bottom), 0, 0,
+        0, 0, -2.0f/(far-near), 0,
+        -(right+left)/(right-left), -(top+bottom)/(top-bottom), -(far+near)/(far-near), 1
+    };
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, ortho);
 	double prev_s = glfwGetTime();	// Define o "tempo anterior" inicial.
 	double title_countdown_s = 0.1; // Intervalo para atualizar o título da janela com o FPS.
 
@@ -153,7 +162,7 @@ int main()
 
 				// Cria uma string e define o FPS como título da janela.
 				char tmp[256];
-				sprintf(tmp, "Ola Triangulo! -- Rossana\tFPS %.2lf", fps);
+				sprintf(tmp, "Lista 2 Exe 1! -- Enzo\tFPS %.2lf", fps);
 				glfwSetWindowTitle(window, tmp);
 
 				title_countdown_s = 0.1; // Reinicia o temporizador para atualizar o título periodicamente.
@@ -263,14 +272,10 @@ int setupGeometry()
 	// Cada atributo do vértice (coordenada, cores, coordenadas de textura, normal, etc)
 	// Pode ser arazenado em um VBO único ou em VBOs separados
 	GLfloat vertices[] = {
-		// x   y     z
-		// T0
-		-0.5, -0.5, 0.0, // v0
-		0.5, -0.5, 0.0,	 // v1
-		0.0, 0.5, 0.0,	 // v2
-						 // T1
-
-	};
+        100.0f, 500.0f, 0.0f, // v0
+        700.0f, 500.0f, 0.0f, // v1
+        400.0f, 100.0f, 0.0f  // v2
+    };
 
 	GLuint VBO, VAO;
 	// Geração do identificador do VBO

@@ -49,9 +49,10 @@ const GLuint WIDTH = 800, HEIGHT = 600;
 const GLchar *vertexShaderSource = R"(
  #version 400
  layout (location = 0) in vec3 position;
+ uniform mat4 projection;
  void main()
  {
-	 gl_Position = vec4(position.x, position.y, position.z, 1.0);
+     gl_Position = projection * vec4(position, 1.0);
  }
  )";
 
@@ -90,7 +91,7 @@ int main()
 	 #endif
 
 	// Criação da janela GLFW
-	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Ola Triangulo! -- Rossana", nullptr, nullptr);
+	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Lista 2 Exe 5! -- Enzo", nullptr, nullptr);
 	if (!window)
 	{
 		std::cerr << "Falha ao criar a janela GLFW" << std::endl;
@@ -117,8 +118,9 @@ int main()
 
 	// Definindo as dimensões da viewport com as mesmas dimensões da janela da aplicação
 	int width, height;
-	glfwGetFramebufferSize(window, &width, &height);
-	glViewport(0, 0, width, height);
+    glfwGetFramebufferSize(window, &width, &height);
+    glViewport(width/2, height/2, width/2, height/2); // x, y, largura, altura
+
 
 	// Compilando e buildando o programa de shader
 	GLuint shaderID = setupShader();
@@ -132,57 +134,55 @@ int main()
 	GLint colorLoc = glGetUniformLocation(shaderID, "inputColor");
 
 	glUseProgram(shaderID); // Reseta o estado do shader para evitar problemas futuros
-
+    GLint projLoc = glGetUniformLocation(shaderID, "projection");
+    float left = 0.0f, right = 800.0f, bottom = 600.0f, top = 0.0f, near = -1.0f, far = 1.0f;
+    float ortho[16] = {
+        2.0f/(right-left), 0, 0, 0,
+        0, 2.0f/(top-bottom), 0, 0,
+        0, 0, -2.0f/(far-near), 0,
+        -(right+left)/(right-left), -(top+bottom)/(top-bottom), -(far+near)/(far-near), 1
+    };
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, ortho);
 	double prev_s = glfwGetTime();	// Define o "tempo anterior" inicial.
 	double title_countdown_s = 0.1; // Intervalo para atualizar o título da janela com o FPS.
 
 	// Loop da aplicação - "game loop"
-	while (!glfwWindowShouldClose(window))
-	{
-		// Este trecho de código é totalmente opcional: calcula e mostra a contagem do FPS na barra de título
-		{
-			double curr_s = glfwGetTime();		// Obtém o tempo atual.
-			double elapsed_s = curr_s - prev_s; // Calcula o tempo decorrido desde o último frame.
-			prev_s = curr_s;					// Atualiza o "tempo anterior" para o próximo frame.
+	 while (!glfwWindowShouldClose(window))
+    {
+        // ...FPS code...
 
-			// Exibe o FPS, mas não a cada frame, para evitar oscilações excessivas.
-			title_countdown_s -= elapsed_s;
-			if (title_countdown_s <= 0.0 && elapsed_s > 0.0)
-			{
-				double fps = 1.0 / elapsed_s; // Calcula o FPS com base no tempo decorrido.
+        glfwPollEvents();
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
 
-				// Cria uma string e define o FPS como título da janela.
-				char tmp[256];
-				sprintf(tmp, "Ola Triangulo! -- Rossana\tFPS %.2lf", fps);
-				glfwSetWindowTitle(window, tmp);
+        glLineWidth(10);
+        glPointSize(20);
 
-				title_countdown_s = 0.1; // Reinicia o temporizador para atualizar o título periodicamente.
-			}
-		}
+        glBindVertexArray(VAO);
+        glUniform4f(colorLoc, 0.0f, 0.0f, 1.0f, 1.0f);
 
-		// Checa se houveram eventos de input (key pressed, mouse moved etc.) e chama as funções de callback correspondentes
-		glfwPollEvents();
+        // Desenha nos 4 quadrantes
+        int width, height;
+        glfwGetFramebufferSize(window, &width, &height);
 
-		// Limpa o buffer de cor
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // cor de fundo
-		glClear(GL_COLOR_BUFFER_BIT);
+        // Superior esquerdo
+        glViewport(0, height/2, width/2, height/2);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		glLineWidth(10);
-		glPointSize(20);
+        // Superior direito
+        glViewport(width/2, height/2, width/2, height/2);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		glBindVertexArray(VAO); // Conectando ao buffer de geometria
+        // Inferior esquerdo
+        glViewport(0, 0, width/2, height/2);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		glUniform4f(colorLoc, 0.0f, 0.0f, 1.0f, 1.0f); // enviando cor para variável uniform inputColor
+        // Inferior direito
+        glViewport(width/2, 0, width/2, height/2);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		// Chamada de desenho - drawcall
-		// Poligono Preenchido - GL_TRIANGLES
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		// glBindVertexArray(0); // Desnecessário aqui, pois não há múltiplos VAOs
-
-		// Troca os buffers da tela
-		glfwSwapBuffers(window);
-	}
+        glfwSwapBuffers(window);
+    }
 	// Pede pra OpenGL desalocar os buffers
 	glDeleteVertexArrays(1, &VAO);
 	// Finaliza a execução da GLFW, limpando os recursos alocados por ela
@@ -263,14 +263,10 @@ int setupGeometry()
 	// Cada atributo do vértice (coordenada, cores, coordenadas de textura, normal, etc)
 	// Pode ser arazenado em um VBO único ou em VBOs separados
 	GLfloat vertices[] = {
-		// x   y     z
-		// T0
-		-0.5, -0.5, 0.0, // v0
-		0.5, -0.5, 0.0,	 // v1
-		0.0, 0.5, 0.0,	 // v2
-						 // T1
-
-	};
+        100.0f, 500.0f, 0.0f, // v0
+        700.0f, 500.0f, 0.0f, // v1
+        400.0f, 100.0f, 0.0f  // v2
+    };
 
 	GLuint VBO, VAO;
 	// Geração do identificador do VBO

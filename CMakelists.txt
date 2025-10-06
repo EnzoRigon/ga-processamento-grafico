@@ -49,6 +49,24 @@ include_directories(${stb_image_SOURCE_DIR})
 # OBS.: Não pode ter acentos ou caracteres especiais
 set(EXERCISES
     Exercicios/HelloTriangle
+    Exercicios/Lista1/PoligonoPreenchido
+    Exercicios/Lista1/Contorno
+    Exercicios/Lista1/Pontos
+    Exercicios/Lista1/Todos
+    Exercicios/Lista1/Circulo
+    Exercicios/Lista1/Octagono
+    Exercicios/Lista1/Pentagono
+    Exercicios/Lista1/PacMan
+    Exercicios/Lista1/Pizza
+    Exercicios/Lista1/Estrela
+    Exercicios/Lista1/Espiral
+    Exercicios/Lista1/Lista1Exe8
+    Exercicios/Lista1/Lista1Exe9
+    Exercicios/Lista2/Lista2Exe1
+    Exercicios/Lista2/Lista2Exe2
+    Exercicios/Lista2/Lista2Exe4
+    Exercicios/Lista2/Lista2Exe5
+    Exercicios/Lista2/Lista2Exe6
 )
 
 add_compile_options(-Wno-pragmas)
