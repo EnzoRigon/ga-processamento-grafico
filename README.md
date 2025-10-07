@@ -1,82 +1,16 @@
-# Processamento Gráfico 2025/2
+# Processamento Gráfico: Fundamentos 2025/2
 
-Este repositório contém exemplos e códigos utilizados na disciplina de **Processamento Gráfico: Fundamentos** do curso Ciência da Computação da Unisinos. Ele é estruturado para facilitar a organização dos arquivos e a compilação dos projetos utilizando CMake.
+Repositório com os projetos desenvolvidos para a Atividade Acadêmica **Processamento Gráfico: Fundamentos**, parte do curso de graduação em **Ciência da Computação da Unisinos**, desenvolvido em sistema operacional **MACOS** com o **gl versão 4.0**.
 
-## 📂 Estrutura do Repositório
+👤 **Nome Completo:** Enzo Rigon Porto
 
-```plaintext
-📂 FCG2025-1/
-├── 📂 include/               # Cabeçalhos e bibliotecas de terceiros
-│   ├── 📂 glad/              # Cabeçalhos da GLAD (OpenGL Loader)
-│   │   ├── glad.h
-│   │   ├── 📂 KHR/           # Diretório com cabeçalhos da Khronos (GLAD)
-│   │       ├── khrplatform.h
-├── 📂 common/                # Código reutilizável entre os projetos
-│   ├── glad.c                 # Implementação da GLAD
-├── 📂 src/                    # Código-fonte dos exemplos e exemplos/
-│   ├── HelloTriangle.cpp      # Exemplo básico de renderização com OpenGL
-│   ├── ...                    # Outros exemplos e exercícios futuros
-├── 📂 build/                  # Diretório gerado pelo CMake (não incluído no repositório)
-├── 📄 CMakeLists.txt          # Configuração do CMake para compilar os projetos
-├── 📄 README.md               # Este arquivo, com a documentação do repositório
-├── 📄 GettingStarted.md       # Tutorial detalhado sobre como compilar usando o CMake
-├── 📄 ...  
-```
+📂 Estrutura do Repositório
 
-Siga as instruções detalhadas em [GettingStarted.md](GettingStarted.md) para configurar e compilar o projeto.
+| Projeto                 | Engine / Linguagem | Descrição breve                             |
+| ----------------------- | ------------------ | ------------------------------------------- |
+| `src/Exercicios/Lista1`       | C++/OpenGL         | Desenvolvimento dos exercícios da Lista 1    |
+| `src/Exercicios/Lista2` | C++/OpenGL         | Desenvolvimento dos exercícios da Lista 2 |
 
-## ⚠️ **IMPORTANTE: Baixar a GLAD Manualmente**
-Para que o projeto funcione corretamente, é necessário **baixar a GLAD manualmente** utilizando o **GLAD Generator**.
-
-### 🔗 **Acesse o web service do GLAD**:
-👉 [GLAD Generator](https://glad.dav1d.de/)
-
-### ⚙️ **Configuração necessária:**
-- **API:** OpenGL  
-- **Version:** 3.3+ (ou superior compatível com sua máquina)  
-- **Profile:** Core  
-- **Language:** C/C++  
-
-### 📥 **Baixe e extraia os arquivos:**
-Após a geração, extraia os arquivos baixados e coloque-os nos diretórios correspondentes:
-- Copie **`glad.h`** para `include/glad/`
-- Copie **`khrplatform.h`** para `include/glad/KHR/`
-- Copie **`glad.c`** para `common/`
-
-🚨 **Sem esses arquivos, a compilação falhará!** É necessário colocar esses arquivos nos diretórios corretos, conforme a orientação acima.
-
----
-
-## 📚 Sugestão de Estrutura para seu próprio repositório
-
-Recomendamos que você crie um repositório próprio, estruturado com subdiretórios dentro de `src`, para organizar suas atividades da disciplina:
-
-```
-📁 PG2025-2/
-├── 📁 src/
-│   ├── 📁 Lista1/
-│   │   ├── Ex1.cpp
-│   │   ├── Ex2.cpp
-│   │   ├── ...
-│   │   └── README.md
-│   ├── 📁 Lista2/
-│   │   ├── Ex1.cpp
-│   │   ├── ...
-│   │   └── README.md
-│   ├── 📁 TrabalhoGrauA/
-│   │   ├── main.cpp
-│   │   └── README.md
-│   ├── 📁 ...
-├── 📁 include/   # Cabeçalhos comuns (se necessário)
-├── 📁 common/    # Arquivos comuns (como glad.c)
-├── 📄 CMakeLists.txt
-└── 📄 README.md
-```
-
-> Cada diretório dentro de `src/` pode conter um arquivo `README.md` com informações específicas sobre a atividade ou exercício implementado.
-
-Consulte os seguintes materiais para ajuda adicional:
-- [Tutorial de Entregas pelo Github](TutorialEntregasGithub.pdf)
-- [Organizando seu repositório no Github](OrganizandoRepositorioGithub.pdf)
-
-
+Toda a configuração foi feita seguindo os parâmetros deixados na documentação providenciado pela professora.
+Os executáveis dos exercícios estão na pasta build dentro da sua respectiva lista, por exemplo build/Lista1/Circulo.
+As perguntas descritivas estarão todas juntas no arquivo PERGUNTAS.md
