@@ -13,4 +13,5 @@ Repositório com os projetos desenvolvidos para a Atividade Acadêmica **Process
 
 Toda a configuração foi feita seguindo os parâmetros deixados na documentação providenciado pela professora.
 Os executáveis dos exercícios estão na pasta build dentro da sua respectiva lista, por exemplo build/Lista1/Circulo.
-As perguntas descritivas estarão todas juntas no arquivo PERGUNTAS.md
+As perguntas descritivas estarão todas juntas no arquivo PERGUNTAS.md.
+A instalação de dependencias foi mantida no arquivo INSTALACAO.md.
